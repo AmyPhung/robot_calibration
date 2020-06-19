@@ -126,7 +126,11 @@ KDL::Frame ChainModel::getChainFK(const CalibrationOffsetParser& offsets,
     if (chain_.getSegment(i).getJoint().getType() != KDL::Joint::None)
     {
       // Apply any joint offset calibration
-      double p = positionFromMsg(name, state) + offsets.get(name);
+      double p = positionFromMsg(name, state) * offsets.get(name + "_scaling") + offsets.get(name);
+
+//      std::cout << p << std::endl;
+//      std::cout << offsets.get(name + "_scaling") << std::endl;
+
       pose = chain_.getSegment(i).pose(p);
     }
     else
